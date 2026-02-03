@@ -1,0 +1,6 @@
+# Germline variant calling results (VCF files)
+sample	vcf	caller	coverage
+Sample_A	/data/variants/sample_A.vcf.gz	HaplotypeCaller	30x
+Sample_B	/data/variants/sample_B.vcf.gz	HaplotypeCaller	45x
+Sample_C	/data/variants/sample_C.vcf.gz	HaplotypeCaller	28x
+Sample_D	/data/variants/sample_D.vcf.gz	DeepVariant	52x

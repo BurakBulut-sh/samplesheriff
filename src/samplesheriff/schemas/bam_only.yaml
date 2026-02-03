@@ -1,0 +1,40 @@
+name: bam_only
+description: |
+  Schema for BAM-only sample sheets with read group validation.
+# delimiter auto-detected from file content
+version: "1.0.0"
+allow_extra_columns: true
+
+columns:
+  - name: sample
+    type: STRING
+    required: true
+    description: Sample identifier
+
+  - name: bam
+    type: PATH
+    required: true
+    file_check: REQUIRED
+    description: Path to BAM file
+
+  - name: bai
+    type: PATH
+    required: false
+    file_check: OPTIONAL
+    description: Path to BAM index (optional, auto-detected)
+
+  - name: sample_type
+    type: STRING
+    required: false
+    allowed_values: ["tumor", "normal", "control", "test", "treatment"]
+    description: Sample type classification
+
+  - name: platform
+    type: STRING
+    required: false
+    allowed_values: ["ILLUMINA", "SOLID", "LS454", "HELICOS", "IONTORRENT", "PACBIO", "ONT"]
+    description: Sequencing platform
+
+constraints:
+  - type: UNIQUE
+    columns: [sample]

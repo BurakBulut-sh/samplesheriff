@@ -1,0 +1,45 @@
+name: vcf_only
+description: |
+  Schema for VCF-only sample sheets for variant analysis pipelines.
+# delimiter auto-detected from file content
+version: "1.0.0"
+allow_extra_columns: true
+
+columns:
+  - name: sample
+    type: STRING
+    required: true
+    description: Sample identifier
+
+  - name: vcf
+    type: PATH
+    required: true
+    file_check: REQUIRED
+    description: Path to VCF file
+
+  - name: tbi
+    type: PATH
+    required: false
+    file_check: OPTIONAL
+    description: Path to tabix index (optional, auto-detected)
+
+  - name: caller
+    type: STRING
+    required: false
+    description: Variant caller used (e.g., HaplotypeCaller, DeepVariant)
+
+  - name: normal_vcf
+    type: PATH
+    required: false
+    file_check: OPTIONAL
+    description: Path to matched normal VCF (for tumor-normal pairs)
+
+  - name: pon
+    type: PATH
+    required: false
+    file_check: OPTIONAL
+    description: Panel of Normals VCF
+
+constraints:
+  - type: UNIQUE
+    columns: [sample]

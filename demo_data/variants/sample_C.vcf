@@ -1,0 +1,7 @@
+##fileformat=VCFv4.2
+##fileDate=20240115
+##source=DeepVariant
+##reference=hg38
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	Sample_C
+chr1	1234568	.	T	G	92	PASS	DP=45	GT	0/1
+chr5	5678901	.	C	A	88	PASS	DP=33	GT	1/1

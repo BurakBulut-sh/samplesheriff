@@ -1,0 +1,7 @@
+##fileformat=VCFv4.2
+##fileDate=20240115
+##source=HaplotypeCaller
+##reference=hg38
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	Sample_B
+chr1	1234567	.	A	G	99	PASS	DP=38	GT	0/1
+chr3	4567890	.	T	C	87	PASS	DP=31	GT	0/1

@@ -1,0 +1,45 @@
+name: fastq_only
+description: |
+  Strict schema for FASTQ-only sample sheets with paired-end validation.
+  Requires both fastq_1 and fastq_2 columns.
+# delimiter auto-detected from file content
+version: "1.0.0"
+allow_extra_columns: false
+
+columns:
+  - name: sample
+    type: STRING
+    required: true
+    description: Sample identifier
+
+  - name: fastq_1
+    type: PATH
+    required: true
+    file_check: REQUIRED
+    description: Path to R1 FASTQ file
+
+  - name: fastq_2
+    type: PATH
+    required: true
+    file_check: REQUIRED
+    description: Path to R2 FASTQ file
+
+  - name: lane
+    type: STRING
+    required: false
+    description: Sequencing lane
+
+  - name: strandedness
+    type: STRING
+    required: false
+    allowed_values: ["auto", "forward", "reverse", "unstranded"]
+    description: Library strandedness
+
+  - name: condition
+    type: STRING
+    required: false
+    description: Experimental condition
+
+constraints:
+  - type: UNIQUE
+    columns: [sample]

@@ -1,0 +1,52 @@
+name: custom_rnaseq
+description: Custom RNA-seq schema with additional metadata
+delimiter: "\t"
+version: "1.0.0"
+allow_extra_columns: false
+
+columns:
+  - name: sample
+    type: STRING
+    required: true
+    description: Unique sample identifier
+
+  - name: fastq_1
+    type: PATH
+    required: true
+    file_check: REQUIRED
+    description: Path to R1 FASTQ file
+
+  - name: fastq_2
+    type: PATH
+    required: true
+    file_check: REQUIRED
+    description: Path to R2 FASTQ file
+
+  - name: subject_id
+    type: STRING
+    required: true
+    description: Subject/patient identifier
+
+  - name: timepoint
+    type: STRING
+    required: false
+    allowed_values: ["T0", "T1", "T2", "T3"]
+    description: Time point of sample collection
+
+  - name: rna_quality_rin
+    type: FLOAT
+    required: false
+    description: RNA integrity number (RIN)
+
+  - name: library_prep_date
+    type: STRING
+    required: false
+    pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+    description: Library preparation date (YYYY-MM-DD)
+
+constraints:
+  - type: UNIQUE
+    columns: [sample]
+
+  - type: REQUIRED_GROUP
+    columns: [fastq_1, fastq_2]

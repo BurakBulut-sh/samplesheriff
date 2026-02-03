@@ -1,0 +1,106 @@
+name: nfcore_like
+description: |
+  nf-core style sample sheet schema supporting FASTQ, BAM, and VCF inputs.
+  This is the default schema that follows nf-core conventions.
+# delimiter auto-detected from file content
+version: "1.0.0"
+allow_extra_columns: true
+
+columns:
+  - name: sample
+    type: STRING
+    required: true
+    allow_empty: false
+    description: Sample identifier (unique per sample)
+
+  - name: fastq_1
+    type: PATH
+    required: false
+    allow_empty: true
+    file_check: REQUIRED
+    description: Path to R1 FASTQ file (forward read)
+
+  - name: fastq_2
+    type: PATH
+    required: false
+    allow_empty: true
+    file_check: REQUIRED
+    description: Path to R2 FASTQ file (reverse read)
+
+  - name: bam
+    type: PATH
+    required: false
+    allow_empty: true
+    file_check: REQUIRED
+    description: Path to BAM alignment file
+
+  - name: cram
+    type: PATH
+    required: false
+    allow_empty: true
+    file_check: REQUIRED
+    description: Path to CRAM alignment file
+
+  - name: vcf
+    type: PATH
+    required: false
+    allow_empty: true
+    file_check: REQUIRED
+    description: Path to VCF variant file
+
+  - name: lane
+    type: STRING
+    required: false
+    allow_empty: true
+    description: Sequencing lane identifier (for multiplexed samples)
+
+  - name: strandedness
+    type: STRING
+    required: false
+    allow_empty: true
+    allowed_values: ["auto", "forward", "reverse", "unstranded", "yes", "no"]
+    description: Library strandedness for RNA-seq
+
+  - name: condition
+    type: STRING
+    required: false
+    allow_empty: true
+    description: Experimental condition or group
+
+  - name: replicate
+    type: INTEGER
+    required: false
+    allow_empty: true
+    description: Biological replicate number
+
+  - name: single_end
+    type: BOOLEAN
+    required: false
+    allow_empty: true
+    description: Flag indicating single-end reads (when true, fastq_2 can be empty)
+
+  - name: md5_1
+    type: STRING
+    required: false
+    allow_empty: true
+    pattern: "^[a-fA-F0-9]{32}$"
+    description: MD5 checksum for fastq_1
+
+  - name: md5_2
+    type: STRING
+    required: false
+    allow_empty: true
+    pattern: "^[a-fA-F0-9]{32}$"
+    description: MD5 checksum for fastq_2
+
+constraints:
+  - type: REQUIRED_GROUP
+    columns: [fastq_1, bam, cram, vcf]
+    message: "Each row must specify at least one input file (FASTQ, BAM, CRAM, or VCF)"
+
+  - type: MUTUALLY_EXCLUSIVE
+    columns: [fastq_1, bam, cram, vcf]
+    message: "Only one file type can be specified per row (FASTQ, BAM, CRAM, or VCF)"
+
+  - type: PAIRED
+    columns: [fastq_1, fastq_2]

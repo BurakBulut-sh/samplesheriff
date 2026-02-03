@@ -1,0 +1,9 @@
+# ATAC-seq experiment - single-end reads
+# Note: no fastq_2 column since these are single-end
+sample	fastq_1	condition	cell_type
+ATAC_ctrl_1	/data/atacseq/control_1.fastq.gz	control	HEK293
+ATAC_ctrl_2	/data/atacseq/control_2.fastq.gz	control	HEK293
+ATAC_ctrl_3	/data/atacseq/control_3.fastq.gz	control	HEK293
+ATAC_treat_1	/data/atacseq/treated_1.fastq.gz	treatment	HEK293
+ATAC_treat_2	/data/atacseq/treated_2.fastq.gz	treatment	HEK293
+ATAC_treat_3	/data/atacseq/treated_3.fastq.gz	treatment	HEK293

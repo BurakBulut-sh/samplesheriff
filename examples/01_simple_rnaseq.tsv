@@ -1,0 +1,9 @@
+# Simple RNA-seq experiment - 2 conditions, 3 replicates each
+# This is the most common use case for bulk RNA-seq
+sample	fastq_1	fastq_2	condition	replicate
+control_1	/data/rnaseq/control_1_R1.fastq.gz	/data/rnaseq/control_1_R2.fastq.gz	control	1
+control_2	/data/rnaseq/control_2_R1.fastq.gz	/data/rnaseq/control_2_R2.fastq.gz	control	2
+control_3	/data/rnaseq/control_3_R1.fastq.gz	/data/rnaseq/control_3_R2.fastq.gz	control	3
+treatment_1	/data/rnaseq/treatment_1_R1.fastq.gz	/data/rnaseq/treatment_1_R2.fastq.gz	treatment	1
+treatment_2	/data/rnaseq/treatment_2_R1.fastq.gz	/data/rnaseq/treatment_2_R2.fastq.gz	treatment	2
+treatment_3	/data/rnaseq/treatment_3_R1.fastq.gz	/data/rnaseq/treatment_3_R2.fastq.gz	treatment	3

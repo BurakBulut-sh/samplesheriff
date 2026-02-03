@@ -1,0 +1,23 @@
+name: minimal
+description: |
+  Minimal schema with just sample ID and file path.
+  Useful for simple validation tasks.
+# delimiter auto-detected from file content
+version: "1.0.0"
+allow_extra_columns: true
+
+columns:
+  - name: sample
+    type: STRING
+    required: true
+    description: Sample identifier
+
+  - name: file
+    type: PATH
+    required: true
+    file_check: REQUIRED
+    description: Path to data file
+
+constraints:
+  - type: UNIQUE
+    columns: [sample]

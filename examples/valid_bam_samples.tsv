@@ -1,0 +1,4 @@
+sample	bam	sample_type	condition
+TUMOR_01	/data/tumor_01.bam	tumor	primary
+NORMAL_01	/data/normal_01.bam	normal	blood
+TUMOR_02	/data/tumor_02.bam	tumor	metastatic

@@ -1,0 +1,4 @@
+# Data with MD5 checksums for integrity verification
+sample	fastq_1	fastq_2	md5_1	md5_2
+Sample_1	/data/verified/sample_1_R1.fastq.gz	/data/verified/sample_1_R2.fastq.gz	d41d8cd98f00b204e9800998ecf8427e	d41d8cd98f00b204e9800998ecf8427e
+Sample_2	/data/verified/sample_2_R1.fastq.gz	/data/verified/sample_2_R2.fastq.gz	d41d8cd98f00b204e9800998ecf8427e	d41d8cd98f00b204e9800998ecf8427e

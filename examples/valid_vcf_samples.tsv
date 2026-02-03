@@ -1,0 +1,4 @@
+sample	vcf	caller
+PATIENT_1	/data/patient_1.vcf.gz	HaplotypeCaller
+PATIENT_2	/data/patient_2.vcf.gz	DeepVariant
+PATIENT_3	/data/patient_3.vcf.gz	Strelka2

@@ -1,0 +1,8 @@
+# Old school bioinformatician style
+# Simple, no fancy columns, just IDs and files
+# Dr. Smith's lab has been using this format since 2010
+ID	FilePath	Notes
+Tumor_001	/mnt/storage/project_2024/tumor_001.bam	Primary tumor, good quality
+Tumor_002	/mnt/storage/project_2024/tumor_002.bam	Recurrent sample
+Normal_001	/mnt/storage/project_2024/normal_001.bam	Blood normal
+Normal_002	/mnt/storage/project_2024/normal_002.bam	Blood normal

@@ -1,0 +1,11 @@
+# Multiplexed sequencing - same sample across multiple lanes
+# Lane information is crucial for proper demultiplexing
+sample	fastq_1	fastq_2	lane	flowcell	library_prep_date
+Patient_1	/data/run1/P1_L001_R1.fastq.gz	/data/run1/P1_L001_R2.fastq.gz	L001	H3V7YBBXY	2024-01-15
+Patient_1	/data/run1/P1_L002_R1.fastq.gz	/data/run1/P1_L002_R2.fastq.gz	L002	H3V7YBBXY	2024-01-15
+Patient_1	/data/run1/P1_L003_R1.fastq.gz	/data/run1/P1_L003_R2.fastq.gz	L003	H3V7YBBXY	2024-01-15
+Patient_1	/data/run1/P1_L004_R1.fastq.gz	/data/run1/P1_L004_R2.fastq.gz	L004	H3V7YBBXY	2024-01-15
+Patient_2	/data/run1/P2_L001_R1.fastq.gz	/data/run1/P2_L001_R2.fastq.gz	L001	H3V7YBBXY	2024-01-15
+Patient_2	/data/run1/P2_L002_R1.fastq.gz	/data/run1/P2_L002_R2.fastq.gz	L002	H3V7YBBXY	2024-01-15
+Patient_2	/data/run1/P2_L003_R1.fastq.gz	/data/run1/P2_L003_R2.fastq.gz	L003	H3V7YBBXY	2024-01-15
+Patient_2	/data/run1/P2_L004_R1.fastq.gz	/data/run1/P2_L004_R2.fastq.gz	L004	H3V7YBBXY	2024-01-15

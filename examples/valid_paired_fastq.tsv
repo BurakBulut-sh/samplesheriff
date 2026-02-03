@@ -1,0 +1,5 @@
+sample	fastq_1	fastq_2	strandedness	condition
+SAMPLE_A	/data/sampleA_R1.fastq.gz	/data/sampleA_R2.fastq.gz	auto	treatment
+SAMPLE_B	/data/sampleB_R1.fastq.gz	/data/sampleB_R2.fastq.gz	auto	control
+SAMPLE_C_L001	/data/sampleC_L001_R1.fastq.gz	/data/sampleC_L001_R2.fastq.gz	forward	treatment
+SAMPLE_C_L002	/data/sampleC_L002_R1.fastq.gz	/data/sampleC_L002_R2.fastq.gz	forward	treatment

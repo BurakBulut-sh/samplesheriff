@@ -1,0 +1,9 @@
+# Somatic variant calling - Tumor/Normal pairs
+# Each patient has both tumor and normal samples
+sample	bam	sample_type	patient_id	sequencing_platform
+Tumor_01	/data/somatic/patient_01_tumor.bam	tumor	P01	ILLUMINA
+Normal_01	/data/somatic/patient_01_normal.bam	normal	P01	ILLUMINA
+Tumor_02	/data/somatic/patient_02_tumor.bam	tumor	P02	ILLUMINA
+Normal_02	/data/somatic/patient_02_normal.bam	normal	P02	ILLUMINA
+Tumor_03	/data/somatic/patient_03_tumor.bam	tumor	P03	ILLUMINA
+Normal_03	/data/somatic/patient_03_normal.bam	normal	P03	ILLUMINA

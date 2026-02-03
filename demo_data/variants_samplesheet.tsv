@@ -1,0 +1,6 @@
+# Germline variant calling results
+# VCF files from different callers
+sample	vcf	caller
+Sample_A	demo_data/variants/sample_A.vcf	HaplotypeCaller
+Sample_B	demo_data/variants/sample_B.vcf	HaplotypeCaller
+Sample_C	demo_data/variants/sample_C.vcf	DeepVariant

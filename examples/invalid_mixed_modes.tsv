@@ -1,0 +1,3 @@
+sample	fastq_1	bam
+CONFLICT_1	/data/sample.fastq.gz	/data/sample.bam
+CONFLICT_2	/data/sample2.fastq.gz	

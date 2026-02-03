@@ -1,0 +1,7 @@
+# Somatic variant calling - Tumor/Normal pairs
+# Patient 01 and Patient 02
+sample	bam	sample_type	patient_id
+Tumor_01	demo_data/somatic/patient_01_tumor.bam	tumor	P01
+Normal_01	demo_data/somatic/patient_01_normal.bam	normal	P01
+Tumor_02	demo_data/somatic/patient_02_tumor.bam	tumor	P02
+Normal_02	demo_data/somatic/patient_02_normal.bam	normal	P02
