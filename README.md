@@ -1,6 +1,6 @@
 # SampleSheriff 🧬🔍
 
-[![CI](https://github.com/samplesheriff/samplesheriff/actions/workflows/ci.yml/badge.svg)](https://github.com/samplesheriff/samplesheriff/actions/workflows/ci.yml)
+[![CI](https://github.com/BurakBulut-sh/samplesheriff/actions/workflows/ci.yml/badge.svg)](https://github.com/BurakBulut-sh/samplesheriff/actions/workflows/ci.yml)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
@@ -27,21 +27,18 @@ Bioinformatics pipelines are only as good as their input data. A single malforme
 ### Installation
 
 ```bash
-# Install from PyPI (when published)
-pip install samplesheriff
-
-# Or install from source
-pip install git+https://github.com/samplesheriff/samplesheriff.git
+# Install from source
+pip install git+https://github.com/BurakBulut-sh/samplesheriff.git
 
 # With pysam support for advanced BAM/VCF validation
-pip install samplesheriff[pysam]
+pip install "samplesheriff[pysam] @ git+https://github.com/BurakBulut-sh/samplesheriff.git"
 ```
 
 ### Docker
 
 ```bash
-docker pull samplesheriff/samplesheriff:latest
-docker run --rm -v $(pwd):/data samplesheriff/samplesheriff validate -i /data/samples.tsv
+docker build -t samplesheriff:latest .
+docker run --rm -v $(pwd):/data samplesheriff:latest validate -i /data/samples.tsv
 ```
 
 ### Validate a Sample Sheet
@@ -340,49 +337,61 @@ examples/            # Example sample sheets
 
 ## Architecture
 
-```
-Input Sample Sheet
-       ↓
-   IO Layer (streaming reader)
-       ↓
-   Rule Engine
-   ├── Schema Rules (columns, types, constraints)
-   ├── File Rules (existence, readability)
-   └── Domain Rules (FASTQ, BAM, VCF specifics)
-       ↓
-   Issue Collection
-       ↓
-   Reporter (text/JSON/TSV)
+```mermaid
+flowchart TD
+    A[Input Sample Sheet TSV/CSV] --> B[IO Layer: Streaming Reader]
+    B --> C[Rule Validation Engine]
+    
+    subgraph RuleEngine [Rule Validation Engine]
+        C1[Schema Rules: Required Cols, Enums, Types, Regex]
+        C2[File Rules: Existence, Size, Symlinks, Checksums]
+        C3[Domain Rules: FASTQ Pairing, BAM Headers, VCFs]
+    end
+    
+    C --> C1
+    C --> C2
+    C --> C3
+    
+    C1 --> D[Issue & Diagnostics Collector]
+    C2 --> D
+    C3 --> D
+    
+    D --> E[Reporting Engine]
+    E --> F[Rich Terminal Output]
+    E --> G[JSON Report for CI/CD]
+    E --> H[Exit Code 0: Pass / Non-zero: Fail]
 ```
 
 ### Design Principles
 
-1. **Streaming**: Large sample sheets are processed row-by-row without loading everything into memory
-2. **Extensibility**: New validation rules can be added by implementing the `ValidationRule` interface
-3. **Determinism**: Output is consistently ordered for reproducible CI runs
-4. **Fail Fast**: Critical errors stop processing early when possible
-5. **Actionable**: Every error includes a suggestion for fixing it
+1. **Streaming**: Large sample sheets are processed row-by-row without loading everything into memory.
+2. **Extensibility**: New validation rules can be added by implementing the `ValidationRule` interface.
+3. **Determinism**: Output is consistently ordered for reproducible CI runs.
+4. **Fail Fast**: Critical errors stop processing early when possible.
+5. **Actionable Diagnostics**: Every error includes clear context and remediation suggestions.
 
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
-## Contributing
+## Author & Citation
 
-Contributions are welcome! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+**Developed by:** Burak Bulut, Ph.D.  
+*Bioinformatics Scientist & Computational Biologist*  
+GitHub: [@BurakBulut-sh](https://github.com/BurakBulut-sh)  
+Email: `burak.buluut@outlook.com`
 
-## Acknowledgments
+If you use SampleSheriff in your research workflows, please cite:
 
-- Inspired by [nf-core](https://nf-co.re/) and its community standards
-- Built with [Typer](https://typer.tiangolo.com/), [Rich](https://rich.readthedocs.io/), and [Pydantic](https://docs.pydantic.dev/)
-
-## Citation
-
-If you use SampleSheriff in your research, please cite:
-
-```
-SampleSheriff: A fast, strict sample sheet validator for bioinformatics pipelines
-https://github.com/samplesheriff/samplesheriff
+```bibtex
+@software{bulut2026samplesheriff,
+  author = {Bulut, Burak},
+  title = {SampleSheriff: A fast, strict, nf-core-style sample sheet and metadata validator for bioinformatics pipelines},
+  year = {2026},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  url = {https://github.com/BurakBulut-sh/samplesheriff}
+}
 ```
 
 ---
