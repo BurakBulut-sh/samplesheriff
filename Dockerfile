@@ -11,11 +11,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
-COPY pyproject.toml .
+# Copy project files and build wheel
+COPY pyproject.toml README.md ./
+COPY src/ ./src/
+
 RUN pip install --no-cache-dir build && \
-    mkdir -p src/samplesheriff && \
-    touch src/samplesheriff/__init__.py && \
     python -m build --wheel
 
 # Runtime stage
