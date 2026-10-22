@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-> A fast, strict, nf-core–style sample sheet and metadata validator for bioinformatics pipelines
+> A fast, strict, nf-core-style sample sheet and metadata validator for bioinformatics pipelines
 
 📖 **New to bioinformatics or command-line tools?** Check out [ELI5_README.md](ELI5_README.md) for a simple, jargon-free explanation!
 

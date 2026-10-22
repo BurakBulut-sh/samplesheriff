@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import csv
 import gzip
-import io
 from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
@@ -44,13 +43,13 @@ def detect_delimiter(content: str, candidates: list[str] | None = None) -> str:
         # Prefer tab over comma if counts are equal (nf-core convention)
         if "\t" in scores:
             return "\t"
-        return max(scores, key=scores.get)
+        return max(scores, key=lambda k: scores[k])
 
     # Default to tab for bioinformatics
     return "\t"
 
 
-def open_file(path: Path | str, mode: str = "rt") -> io.IOBase:
+def open_file(path: Path | str, mode: str = "rt") -> Any:
     """Open a file, handling gzip compression automatically.
 
     Args:
@@ -89,11 +88,11 @@ def peek_file(path: Path | str, n_bytes: int = 8192) -> str:
     """
     with open_file(path, "rb") as f:
         content = f.read(n_bytes)
-        # Try to decode as UTF-8, fallback to latin-1
+        content_bytes = content if isinstance(content, bytes) else str(content).encode("utf-8")
         try:
-            return content.decode("utf-8")
+            return content_bytes.decode("utf-8")
         except UnicodeDecodeError:
-            return content.decode("latin-1")
+            return content_bytes.decode("latin-1")
 
 
 def read_sample_sheet(
@@ -224,8 +223,7 @@ class SampleSheetReader:
             except StopIteration:
                 return
 
-            for row in reader:
-                yield row
+            yield from reader
 
     def count_rows(self) -> int:
         """Count total data rows (excluding header).
@@ -264,8 +262,8 @@ class SampleSheetReader:
         headers = self.read_headers()
         try:
             return headers.index(column_name)
-        except ValueError:
-            raise ValueError(f"Column '{column_name}' not found in headers: {headers}")
+        except ValueError as err:
+            raise ValueError(f"Column '{column_name}' not found in headers: {headers}") from err
 
 
 def validate_file_readable(path: Path) -> tuple[bool, str]:
@@ -337,9 +335,7 @@ def read_fastq_headers(path: Path, n_reads: int = 100) -> list[str]:
 
     try:
         with open_file(path) as f:
-            line_num = 0
-            for line in f:
-                line_num += 1
+            for line_num, line in enumerate(f, start=1):
                 # FASTQ: header every 4th line starting at line 1
                 if (line_num - 1) % 4 == 0:
                     line = line.strip()

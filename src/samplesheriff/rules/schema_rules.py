@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from samplesheriff.rules.engine import ValidationContext, ValidationRule, get_column_value
 from samplesheriff.schema import (
+    Constraint,
     ConstraintType,
     Schema,
     Severity,
@@ -117,7 +118,7 @@ class SchemaRule(ValidationRule):
 
     def _check_constraint(
         self,
-        constraint,
+        constraint: Constraint,
         context: ValidationContext,
     ) -> list[ValidationIssue]:
         """Check a single constraint."""
@@ -138,7 +139,7 @@ class SchemaRule(ValidationRule):
 
         return issues
 
-    def _check_unique(self, constraint) -> list[ValidationIssue]:
+    def _check_unique(self, constraint: Constraint) -> list[ValidationIssue]:
         """Check that column values are unique."""
         issues: list[ValidationIssue] = []
 
@@ -166,7 +167,7 @@ class SchemaRule(ValidationRule):
 
         return issues
 
-    def _check_required_group(self, constraint) -> list[ValidationIssue]:
+    def _check_required_group(self, constraint: Constraint) -> list[ValidationIssue]:
         """Check that at least one column in group has a value."""
         issues: list[ValidationIssue] = []
 
@@ -201,7 +202,7 @@ class SchemaRule(ValidationRule):
 
         return issues
 
-    def _check_mutually_exclusive(self, constraint) -> list[ValidationIssue]:
+    def _check_mutually_exclusive(self, constraint: Constraint) -> list[ValidationIssue]:
         """Check that only one column in group has a value."""
         issues: list[ValidationIssue] = []
 
@@ -235,7 +236,7 @@ class SchemaRule(ValidationRule):
 
         return issues
 
-    def _check_paired(self, constraint) -> list[ValidationIssue]:
+    def _check_paired(self, constraint: Constraint) -> list[ValidationIssue]:
         """Check that paired columns are both present or both empty."""
         issues: list[ValidationIssue] = []
 

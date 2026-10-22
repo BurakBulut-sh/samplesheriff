@@ -117,7 +117,7 @@ class ValidationRule(ABC):
 class RuleEngine:
     """Engine for executing multiple validation rules."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the rule engine."""
         self.rules: list[ValidationRule] = []
         self.context: ValidationContext | None = None

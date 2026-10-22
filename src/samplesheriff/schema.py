@@ -106,7 +106,7 @@ class ColumnSchema(BaseModel):
             try:
                 re.compile(v)
             except re.error as e:
-                raise ValueError(f"Invalid regex pattern: {e}")
+                raise ValueError(f"Invalid regex pattern: {e}") from e
         return v
 
     def validate_value(
@@ -146,13 +146,12 @@ class ColumnSchema(BaseModel):
             return issues
 
         # Type validation and conversion
-        converted_value: Any = value
         str_value = str(value).strip()
 
         match self.type:
             case ColumnType.INTEGER:
                 try:
-                    converted_value = int(str_value)
+                    int(str_value)
                 except ValueError:
                     issues.append(
                         ValidationIssue(
@@ -167,7 +166,7 @@ class ColumnSchema(BaseModel):
 
             case ColumnType.FLOAT:
                 try:
-                    converted_value = float(str_value)
+                    float(str_value)
                 except ValueError:
                     issues.append(
                         ValidationIssue(
@@ -199,32 +198,30 @@ class ColumnSchema(BaseModel):
                 pass
 
         # Pattern validation
-        if self.pattern is not None and str_value:
-            if not re.match(self.pattern, str_value):
-                issues.append(
-                    ValidationIssue(
-                        code="E005",
-                        severity=Severity.ERROR,
-                        row=row,
-                        column=self.name,
-                        message=f"Value '{str_value}' in column '{self.name}' does not match pattern '{self.pattern}'",
-                        suggestion="Check the value format against the required pattern",
-                    )
+        if self.pattern is not None and str_value and not re.match(self.pattern, str_value):
+            issues.append(
+                ValidationIssue(
+                    code="E005",
+                    severity=Severity.ERROR,
+                    row=row,
+                    column=self.name,
+                    message=f"Value '{str_value}' in column '{self.name}' does not match pattern '{self.pattern}'",
+                    suggestion="Check the value format against the required pattern",
                 )
+            )
 
         # Allowed values validation
-        if self.allowed_values is not None and str_value:
-            if str_value not in self.allowed_values:
-                issues.append(
-                    ValidationIssue(
-                        code="E006",
-                        severity=Severity.ERROR,
-                        row=row,
-                        column=self.name,
-                        message=f"Value '{str_value}' in column '{self.name}' is not in allowed values: {self.allowed_values}",
-                        suggestion=f"Use one of: {', '.join(self.allowed_values)}",
-                    )
+        if self.allowed_values is not None and str_value and str_value not in self.allowed_values:
+            issues.append(
+                ValidationIssue(
+                    code="E006",
+                    severity=Severity.ERROR,
+                    row=row,
+                    column=self.name,
+                    message=f"Value '{str_value}' in column '{self.name}' is not in allowed values: {self.allowed_values}",
+                    suggestion=f"Use one of: {', '.join(self.allowed_values)}",
                 )
+            )
 
         # File existence check for PATH type
         if self.type == ColumnType.PATH and str_value and self.file_check == FileCheckMode.REQUIRED:
@@ -352,7 +349,7 @@ class Schema(BaseModel):
                     if isinstance(constraint["type"], ConstraintType)
                     else constraint["type"]
                 )
-        return yaml.dump(data, sort_keys=False, default_flow_style=False)
+        return str(yaml.dump(data, sort_keys=False, default_flow_style=False))
 
     @classmethod
     def from_yaml(cls, yaml_str: str) -> Schema:

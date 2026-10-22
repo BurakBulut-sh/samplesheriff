@@ -294,18 +294,19 @@ class DomainRule(ValidationRule):
         bam_path = normalize_path(Path(bam), context.base_dir)
 
         # Check index if required
-        if self.require_index or context.require_index:
-            if not check_index_exists(bam_path, "bai") and not check_index_exists(bam_path, "csi"):
-                issues.append(
-                    ValidationIssue(
-                        code="E034",
-                        severity=Severity.ERROR,
-                        row=row_number,
-                        column="bam",
-                        message=f"BAM index not found for {bam}",
-                        suggestion="Create index with 'samtools index' or disable --require-index",
-                    )
+        if (self.require_index or context.require_index) and not (
+            check_index_exists(bam_path, "bai") or check_index_exists(bam_path, "csi")
+        ):
+            issues.append(
+                ValidationIssue(
+                    code="E034",
+                    severity=Severity.ERROR,
+                    row=row_number,
+                    column="bam",
+                    message=f"BAM index not found for {bam}",
+                    suggestion="Create index with 'samtools index' or disable --require-index",
                 )
+            )
 
         # Check header if samtools available
         if has_samtools():
@@ -368,18 +369,19 @@ class DomainRule(ValidationRule):
         cram_path = normalize_path(Path(cram), context.base_dir)
 
         # Check index if required
-        if self.require_index or context.require_index:
-            if not check_index_exists(cram_path, "crai"):
-                issues.append(
-                    ValidationIssue(
-                        code="E037",
-                        severity=Severity.ERROR,
-                        row=row_number,
-                        column="cram",
-                        message=f"CRAM index not found for {cram}",
-                        suggestion="Create index with 'samtools index' or disable --require-index",
-                    )
+        if (self.require_index or context.require_index) and not check_index_exists(
+            cram_path, "crai"
+        ):
+            issues.append(
+                ValidationIssue(
+                    code="E037",
+                    severity=Severity.ERROR,
+                    row=row_number,
+                    column="cram",
+                    message=f"CRAM index not found for {cram}",
+                    suggestion="Create index with 'samtools index' or disable --require-index",
                 )
+            )
 
         # Similar header checks as BAM
         if has_samtools():
@@ -427,18 +429,17 @@ class DomainRule(ValidationRule):
         vcf_path = normalize_path(Path(vcf), context.base_dir)
 
         # Check index if required
-        if self.require_index or context.require_index:
-            if not check_index_exists(vcf_path):
-                issues.append(
-                    ValidationIssue(
-                        code="E040",
-                        severity=Severity.ERROR,
-                        row=row_number,
-                        column="vcf",
-                        message=f"VCF index not found for {vcf}",
-                        suggestion="Create index with 'bcftools index' or 'tabix'",
-                    )
+        if (self.require_index or context.require_index) and not check_index_exists(vcf_path):
+            issues.append(
+                ValidationIssue(
+                    code="E040",
+                    severity=Severity.ERROR,
+                    row=row_number,
+                    column="vcf",
+                    message=f"VCF index not found for {vcf}",
+                    suggestion="Create index with 'bcftools index' or 'tabix'",
                 )
+            )
 
         # Check header
         try:

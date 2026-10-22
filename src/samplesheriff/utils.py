@@ -73,7 +73,7 @@ def run_command(
     check: bool = False,
     capture_output: bool = True,
     timeout: int = 30,
-) -> subprocess.CompletedProcess:
+) -> subprocess.CompletedProcess[str]:
     """Run a shell command safely.
 
     Args:
@@ -295,11 +295,12 @@ def format_file_size(size_bytes: int) -> str:
     Returns:
         Human-readable size string
     """
+    size = float(size_bytes)
     for unit in ["B", "KB", "MB", "GB", "TB"]:
-        if size_bytes < 1024:
-            return f"{size_bytes:.1f} {unit}"
-        size_bytes /= 1024
-    return f"{size_bytes:.1f} PB"
+        if size < 1024:
+            return f"{size:.1f} {unit}"
+        size /= 1024
+    return f"{size:.1f} PB"
 
 
 def deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:

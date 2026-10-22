@@ -105,18 +105,17 @@ class FileRule(ValidationRule):
                     continue
 
             # Non-empty check
-            if self.check_readability and self.check_non_empty:
-                if not check_file_non_empty(path):
-                    issues.append(
-                        ValidationIssue(
-                            code="E021",
-                            severity=Severity.ERROR,
-                            row=row_number,
-                            column=col,
-                            message=f"File is empty: {path}",
-                            suggestion="Provide a non-empty file",
-                        )
+            if self.check_readability and self.check_non_empty and not check_file_non_empty(path):
+                issues.append(
+                    ValidationIssue(
+                        code="E021",
+                        severity=Severity.ERROR,
+                        row=row_number,
+                        column=col,
+                        message=f"File is empty: {path}",
+                        suggestion="Provide a non-empty file",
                     )
+                )
 
             # Extension sanity check
             if self.check_extensions:
@@ -124,18 +123,17 @@ class FileRule(ValidationRule):
                 issues.extend(ext_issues)
 
             # Gzip integrity check
-            if self.check_readability and path.suffix == ".gz":
-                if not is_gzipped(path):
-                    issues.append(
-                        ValidationIssue(
-                            code="W010",
-                            severity=Severity.WARNING,
-                            row=row_number,
-                            column=col,
-                            message=f"File has .gz extension but is not gzip compressed: {path}",
-                            suggestion="Remove .gz extension or compress with gzip",
-                        )
+            if self.check_readability and path.suffix == ".gz" and not is_gzipped(path):
+                issues.append(
+                    ValidationIssue(
+                        code="W010",
+                        severity=Severity.WARNING,
+                        row=row_number,
+                        column=col,
+                        message=f"File has .gz extension but is not gzip compressed: {path}",
+                        suggestion="Remove .gz extension or compress with gzip",
                     )
+                )
 
         return issues
 
