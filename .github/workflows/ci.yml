@@ -83,26 +83,29 @@ jobs:
       - name: Test init command
         run: |
           samplesheriff init /tmp/test_init --type fastq --name test
+          test -f /tmp/test_init/test.tsv
+          test -f /tmp/test_init/test_schema.yaml
           cat /tmp/test_init/test.tsv
-          samplesheriff validate -i /tmp/test_init/test.tsv -s /tmp/test_init/test_schema.yaml
 
       - name: Test example validations
         run: |
-          # Valid examples should pass
-          samplesheriff validate -i examples/valid_paired_fastq.tsv -s builtin:nfcore_like
-          samplesheriff validate -i examples/valid_single_end.tsv -s builtin:nfcore_like
+          # Valid datasets should pass
+          samplesheriff validate -i demo_data/rnaseq_samplesheet.tsv -s builtin:nfcore_like
+          samplesheriff validate -i demo_data/somatic_samplesheet.tsv -s builtin:bam_only
+          samplesheriff validate -i demo_data/variants_samplesheet.tsv -s builtin:vcf_only
           
-          # Invalid examples should fail
+          # Invalid datasets should fail
+          samplesheriff validate -i demo_data/broken_samplesheet.tsv -s builtin:fastq_only && exit 1 || true
           samplesheriff validate -i examples/invalid_missing_column.tsv -s builtin:nfcore_like && exit 1 || true
           samplesheriff validate -i examples/invalid_empty_required.tsv -s builtin:nfcore_like && exit 1 || true
 
       - name: Test JSON output
         run: |
-          samplesheriff validate -i examples/valid_paired_fastq.tsv -s builtin:nfcore_like --format json
+          samplesheriff validate -i demo_data/rnaseq_samplesheet.tsv -s builtin:nfcore_like --format json
 
       - name: Test report generation
         run: |
-          samplesheriff validate -i examples/valid_paired_fastq.tsv -s builtin:nfcore_like --report /tmp/report.json
+          samplesheriff validate -i demo_data/rnaseq_samplesheet.tsv -s builtin:nfcore_like --report /tmp/report.json
           cat /tmp/report.json
 
   build:

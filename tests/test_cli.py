@@ -2,11 +2,18 @@
 
 from __future__ import annotations
 
+import re
+
 from typer.testing import CliRunner
 
 from samplesheriff.cli import app
 
 runner = CliRunner()
+
+
+def strip_ansi(text: str) -> str:
+    """Strip ANSI escape sequences from text."""
+    return re.sub(r"\x1b\[[0-9;]*[a-zA-Z]", "", text)
 
 
 class TestValidateCommand:
@@ -16,8 +23,9 @@ class TestValidateCommand:
         """Test validate command help."""
         result = runner.invoke(app, ["validate", "--help"])
         assert result.exit_code == 0
-        assert "--input" in result.output
-        assert "--schema" in result.output
+        clean_output = strip_ansi(result.output)
+        assert "--input" in clean_output
+        assert "--schema" in clean_output
 
     def test_missing_input(self):
         """Test validate fails without input."""

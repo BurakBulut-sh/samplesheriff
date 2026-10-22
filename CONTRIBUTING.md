@@ -51,6 +51,7 @@ pytest
 from samplesheriff.rules.engine import ValidationRule, ValidationContext
 from samplesheriff.schema import ValidationIssue
 
+
 class MyRule(ValidationRule):
     def validate(self, context, row, row_number):
         issues = []
